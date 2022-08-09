@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,13 +40,13 @@ public class Ruta extends AppCompatActivity {
     }
 
     private void initComponents(){
-        et_nombreRuta = (EditText) findViewById(R.id.et_nombreRuta);
+        et_nombreRuta = (EditText) findViewById(R.id.et_nombreUbicacion);
         et_totalEntrenadores = (EditText) findViewById(R.id.et_totalEntrenadores);
         initLista();
     }
 
     private void initLista(){
-        listaRutas = (ListView)findViewById(R.id.lista_rutas);
+        listaRutas = (ListView)findViewById(R.id.lista_ubicaciones);
 
         listaRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

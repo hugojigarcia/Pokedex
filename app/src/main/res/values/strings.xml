@@ -1,19 +1,27 @@
 <resources>
     <string name="app_name">Pokedex</string>
 
+    <string name="boton_add">+</string>
+    <string name="casilla_nombre">Nombre</string>
+
     <string name="barraHerramientas_ajustes">Ajustes</string>
     <string name="barraHerramientas_back">Back</string>
     <string name="barraHerramientas_home">Home</string>
-    <string name="boton_add">+</string>
-    <string name="casilla_nombre">Nombre</string>
+
+    <string name="ajustes_tituloVentana">Ajustes</string>
+    <string name="ajustes_modoOscuro">Modo oscuro:</string>
 
     <string name="main_tituloVentana">Inicio</string>
 
     <string name="ruta_tituloVentana">Rutas</string>
     <string name="ruta_casillaTotalEntrenadores">Entrenadores</string>
 
-    <string name="ajustes_tituloVentana">Ajustes</string>
-    <string name="ajustes_modoOscuro">Modo oscuro:</string>
+    <string name="zona_tituloVentana">Zonas</string>
+    <string name="zona_numEntrenadores">Entrenadores derrotados: 0/0</string>
+
+    <string name="ubicacion_tituloVentana">Ubicación</string>
+
+
 
     <string name="listaJuegos_tituloVentana">Juegos</string>
     <string name="listaJuegos_todo"><b>CONSULTA:</b></string>
@@ -26,8 +34,6 @@
     <string name="visualizarJuego_numEquipos">NUM EQUIPOS:</string>
     <string name="visualizarJuego_edadRecomendada">EDAD RECOMENDADA:</string>
     <string name="visualizarJuego_descripcion">DESCRIPCIÓN:</string>
-
-
 
 
 </resources>

@@ -49,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initComponents(){
-        et_nombreJuego = (EditText) findViewById(R.id.et_nombreRuta);
+        et_nombreJuego = (EditText) findViewById(R.id.et_nombreUbicacion);
         initLista();
     }
 
     private void initLista(){
-        listaJuegos = (ListView)findViewById(R.id.lista_rutas);
+        listaJuegos = (ListView)findViewById(R.id.lista_ubicaciones);
 
         listaJuegos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

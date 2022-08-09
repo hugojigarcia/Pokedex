@@ -109,6 +109,81 @@ public class BDConnector {
         statement.close();
     }
 
+    public ArrayList<String> leerListaZonas(String nombreJuego, String nombreRuta) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT nombreZona FROM Zona WHERE nombreJuego=? AND nombreRuta=?");
+
+        statement.setString(1, nombreJuego);
+        statement.setString(2, nombreRuta);
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<String> resultado = new ArrayList();
+        while(resultSet.next()) {
+            resultado.add(resultSet.getString(1));
+        }
+
+        statement.close();
+        return resultado;
+    }
+
+    public void addZona (String nombreJuego, String nombreRuta, String nombreZona) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Zona (nombreJuego, nombreRuta, nombreZona) VALUES (?, ?, ?)");
+        statement.setString(1, nombreJuego);
+        statement.setString(2, nombreRuta);
+        statement.setString(3, nombreZona);
+        statement.execute();
+        statement.close();
+    }
+
+    public int[] leerEntrenadoresDeRuta(String nombreJuego, String nombreRuta) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT entrenadoresDerrotados, totalEntrenadores FROM Ruta WHERE nombreJuego=? AND nombreRuta=?");
+
+        statement.setString(1, nombreJuego);
+        statement.setString(2, nombreRuta);
+        ResultSet resultSet = statement.executeQuery();
+
+        resultSet.next();
+        int[] resultado = {resultSet.getInt("entrenadoresDerrotados"), resultSet.getInt("totalEntrenadores")};
+        statement.close();
+        return resultado;
+    }
+
+    public void setEntrenadoresDeRuta(String nombreJuego, String nombreRuta, int entrenadoresDerrotados) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("UPDATE Ruta SET entrenadoresDerrotados = ? WHERE nombreJuego=? AND nombreRuta=?");
+        statement.setInt(1, entrenadoresDerrotados);
+        statement.setString(2, nombreJuego);
+        statement.setString(3, nombreRuta);
+        statement.execute();
+
+        statement.close();
+    }
+
+    public ArrayList<String> leerListaUbicaciones(String nombreJuego, String nombreRuta, String nombreZona) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT nombreUbicacion FROM Ubicacion WHERE nombreJuego=? AND nombreRuta=? AND nombreZona=?");
+
+        statement.setString(1, nombreJuego);
+        statement.setString(2, nombreRuta);
+        statement.setString(3, nombreZona);
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<String> resultado = new ArrayList();
+        while(resultSet.next()) {
+            resultado.add(resultSet.getString(1));
+        }
+
+        statement.close();
+        return resultado;
+    }
+
+    public void addUbicacion(String nombreJuego, String nombreRuta, String nombreZona, String nombreUbicacion) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Ubicacion (nombreJuego, nombreRuta, nombreZona, nombreUbicacion) VALUES (?, ?, ?, ?)");
+        statement.setString(1, nombreJuego);
+        statement.setString(2, nombreRuta);
+        statement.setString(3, nombreZona);
+        statement.setString(4, nombreUbicacion);
+        statement.execute();
+        statement.close();
+    }
+
     public Juego leerJuego (String nombres) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT juegoID, minPersonas, maxPersonas, numEquipos, edadRecomendada, descripcion, nombres\n" +
                                                                      "FROM Juego WHERE nombres= (?) ");

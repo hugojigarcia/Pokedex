@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JuegosAnnapurna">
         <activity
+            android:name=".Pokemons"
+            android:exported="false" />
+        <activity
+            android:name=".Ubicacion"
+            android:exported="false" />
+        <activity
             android:name=".Zona"
             android:exported="false" />
         <activity
