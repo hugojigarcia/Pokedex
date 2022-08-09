@@ -1,0 +1,48 @@
+CREATE TABLE Juego
+(
+  nombreJuego VARCHAR(100) NOT NULL,
+  PRIMARY KEY (nombreJuego)
+);
+
+CREATE TABLE Ruta
+(
+  nombreRuta VARCHAR(100) NOT NULL,
+  totalEntrenadores INT NOT NULL,
+  entrenadoresDerrotados INT NOT NULL,
+  nombreJuego VARCHAR(100) NOT NULL,
+  PRIMARY KEY (nombreRuta),
+  FOREIGN KEY (nombreJuego) REFERENCES Juego(nombreJuego)
+);
+
+CREATE TABLE Zona
+(
+  nombreZona VARCHAR(100) NOT NULL,
+  nombreRuta VARCHAR(100) NOT NULL,
+  PRIMARY KEY (nombreZona),
+  FOREIGN KEY (nombreRuta) REFERENCES Ruta(nombreRuta)
+);
+
+CREATE TABLE Pokemon
+(
+  nombrePokemon VARCHAR(100) NOT NULL,
+  capturado BOOLEAN NOT NULL,
+  PRIMARY KEY (nombrePokemon)
+);
+
+CREATE TABLE Ubicacion
+(
+  nombreUbicacion VARCHAR(100) NOT NULL,
+  nombreZona VARCHAR(100) NOT NULL,
+  PRIMARY KEY (nombreUbicacion),
+  FOREIGN KEY (nombreZona) REFERENCES Zona(nombreZona)
+);
+
+CREATE TABLE ubicacion_pokemon
+(
+  probabilidad INT NOT NULL,
+  nombreUbicacion VARCHAR(100) NOT NULL,
+  nombrePokemon VARCHAR(100) NOT NULL,
+  PRIMARY KEY (nombreUbicacion, nombrePokemon),
+  FOREIGN KEY (nombreUbicacion) REFERENCES Ubicacion(nombreUbicacion),
+  FOREIGN KEY (nombrePokemon) REFERENCES Pokemon(nombrePokemon)
+);

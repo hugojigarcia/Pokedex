@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+
+    <string name="barraHerramientas_ajustes">Ajustes</string>
+    <string name="barraHerramientas_back">Back</string>
+    <string name="barraHerramientas_home">Home</string>
+
+    <string name="main_tituloVentana">Inicio</string>
+    <string name="main_botonJuegos">JUEGOS</string>
+
+    <string name="ajustes_tituloVentana">Ajustes</string>
+    <string name="ajustes_modoOscuro">Modo oscuro:</string>
+
+    <string name="listaJuegos_tituloVentana">Juegos</string>
+    <string name="listaJuegos_todo"><b>CONSULTA:</b></string>
+    <string name="listaJuegos_botonConsultarJuegos">Consultar juegos</string>
+
+    <string name="visualizarJuego_tituloVentana">Juego</string>
+    <string name="visualizarJuego_nombres">NOMBRES:</string>
+    <string name="visualizarJuego_minPersonas">MIN PERSONAS:</string>
+    <string name="visualizarJuego_maxPersonas">MAX PERSONAS:</string>
+    <string name="visualizarJuego_numEquipos">NUM EQUIPOS:</string>
+    <string name="visualizarJuego_edadRecomendada">EDAD RECOMENDADA:</string>
+    <string name="visualizarJuego_descripcion">DESCRIPCIÓN:</string>
+
+
+
+</resources>
