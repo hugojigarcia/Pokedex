@@ -28,6 +28,7 @@
 
     <string name="pokedex_tituloVentana">Pokedex</string>
     <string name="pokedex_capturado">Capturado</string>
+    <string name="pokedex_busqueda">Buscar pokemon</string>
 
 
     <string name="listaJuegos_tituloVentana">Juegos</string>

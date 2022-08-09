@@ -240,6 +240,24 @@ public class BDConnector {
         return resultado;
     }
 
+    public ArrayList<Pokemon> buscarPokedex(String nombreJuego, String buscar) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT Pokemon.nombrePokemon, numero, capturado " +
+                "FROM Pokemon INNER JOIN juego_pokemon ON Pokemon.nombrePokemon=juego_pokemon.nombrePokemon " +
+                "WHERE nombreJuego=? AND Pokemon.nombrePokemon LIKE ? ORDER BY numero ASC");
+
+        statement.setString(1, nombreJuego);
+        statement.setString(2, "%"+buscar+"%");
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<Pokemon> resultado = new ArrayList();
+        while(resultSet.next()) {
+            resultado.add(new Pokemon(resultSet.getString("nombrePokemon"), resultSet.getInt("numero"), resultSet.getBoolean("capturado")));
+        }
+
+        statement.close();
+        return resultado;
+    }
+
     public void addPokemonCapturado(String nombreJuego, String nombrePokemon, boolean capturado) throws SQLException {
         if(comprobarYaAdd(nombreJuego, nombrePokemon)) {
             PreparedStatement statement = connection.prepareStatement("UPDATE juego_pokemon SET capturado = ? WHERE nombreJuego=? AND nombrePokemon=?");

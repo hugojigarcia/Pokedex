@@ -20,7 +20,7 @@ public class Pokedex extends AppCompatActivity {
     private Intent pantallaRuta;
     private ListView listaPokemons;
     private String nombreJuego;
-    private EditText et_nombrePokemon;
+    private EditText et_nombrePokemon, et_busqueda;
     private CheckBox cb_capturado;
 
     @Override
@@ -43,6 +43,7 @@ public class Pokedex extends AppCompatActivity {
     }
 
     private void initComponents(){
+        et_busqueda = (EditText) findViewById(R.id.et_busqueda);
         et_nombrePokemon = (EditText) findViewById(R.id.et_nombrePokemon);
         cb_capturado = (CheckBox) findViewById(R.id.cb_capturado);
         initLista();
@@ -129,6 +130,19 @@ public class Pokedex extends AppCompatActivity {
         } catch (SQLException throwables) {
             //TODO lanzar error por pantalla
             Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onclick_buscar(View view){
+        String buscar = et_busqueda.getText().toString();
+        try {
+            ArrayList<Pokemon> pokemons = BDConnector.getInstance().buscarPokedex(nombreJuego, buscar);
+            ArrayList<String> opciones = convertirArrayNombres(pokemons);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, opciones);
+            listaPokemons.setAdapter(adapter);
+            checkACapturados(pokemons);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
