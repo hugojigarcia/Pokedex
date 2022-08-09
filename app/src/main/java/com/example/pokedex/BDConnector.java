@@ -64,9 +64,9 @@ public class BDConnector {
         return connection;
     }
 
-    public ArrayList<String> leerListaJuegos() throws SQLException {
+    public ArrayList<String> leerListaJuegos () throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT nombres FROM Juego;");
+        ResultSet resultSet = statement.executeQuery("SELECT nombreJuego FROM Juego;");
 
         ArrayList<String> resultado = new ArrayList();
 
@@ -76,6 +76,37 @@ public class BDConnector {
 
         statement.close();
         return resultado;
+    }
+
+    public void addJuego (String nombreJuego) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Juego (nombreJuego) VALUES (?)");
+        statement.setString(1, nombreJuego);
+        statement.execute();
+        statement.close();
+    }
+
+    public ArrayList<String> leerListaRutas(String nombreJuego) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT nombreRuta FROM Ruta WHERE nombreJuego= (?) ");
+
+        statement.setString(1, nombreJuego);
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<String> resultado = new ArrayList();
+        while(resultSet.next()) {
+            resultado.add(resultSet.getString(1));
+        }
+
+        statement.close();
+        return resultado;
+    }
+
+    public void addRuta (String nombreJuego, String nombreRuta, int totalEntrenadores) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Ruta (nombreJuego, nombreRuta, totalEntrenadores, entrenadoresDerrotados) VALUES (?, ?, ?, 0)");
+        statement.setString(1, nombreJuego);
+        statement.setString(2, nombreRuta);
+        statement.setInt(3, totalEntrenadores);
+        statement.execute();
+        statement.close();
     }
 
     public Juego leerJuego (String nombres) throws SQLException {

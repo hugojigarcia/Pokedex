@@ -7,26 +7,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
-
-import com.example.pokedex.R;
-import com.example.pokedex.vista_juego.ListaJuegos;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private Intent pantallaListaJuegos, pantallaAjustes;
+    private Intent pantallaRuta, pantallaAjustes;
+    private ListView listaJuegos;
+    private EditText et_nombreJuego;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         conectarBD();
-        setUserID();
         initToolBar();
         initComponents();
         setAjustesGuardados();
+
+        pantallaRuta = new Intent(this, Ruta.class);
+        pantallaAjustes = new Intent(this, Ajustes.class);
     }
 
     @Override
@@ -37,20 +43,37 @@ public class MainActivity extends AppCompatActivity {
         } catch (SQLException ignored) { }
     }
 
-    private void setUserID(){
-        try {
-            Usuario.getInstance().setUserID( Settings.Secure.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID) );
-        } catch (Exception ignored) {}
-    }
-
     private void initToolBar(){
         setSupportActionBar(findViewById(R.id.barraHerramientas));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void initComponents(){
-        pantallaListaJuegos = new Intent(this, ListaJuegos.class);
-        pantallaAjustes = new Intent(this, Ajustes.class);
+        et_nombreJuego = (EditText) findViewById(R.id.et_nombreRuta);
+        initLista();
+    }
+
+    private void initLista(){
+        listaJuegos = (ListView)findViewById(R.id.lista_rutas);
+
+        listaJuegos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                pantallaRuta.putExtra("Juego", (String) listaJuegos.getItemAtPosition(i));
+                startActivity(pantallaRuta);
+            }
+        });
+        consultarJuegos();
+    }
+
+    private void consultarJuegos(){
+        try {
+            ArrayList<String> opciones = BDConnector.getInstance().leerListaJuegos(); //Modify
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, opciones);
+            listaJuegos.setAdapter(adapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void conectarBD(){
@@ -58,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             BDConnector.connect(this.getResources().openRawResource(R.raw.config));
         } catch (Exception e) {
             //TODO lanzar error por pantalla
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -66,18 +90,21 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode( archivoAjustes.getInt("modoOscuro", AppCompatDelegate.getDefaultNightMode()) );
     }
 
-    public void onclick_irAVentanaListaJuegos(View view){
-        try {
-            pantallaListaJuegos.putStringArrayListExtra("ListaJuegos",BDConnector.getInstance().leerListaJuegos());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        startActivity(pantallaListaJuegos);
-    }
-
     public void onclick_irAVentanaAjustes(View view){
         startActivity(pantallaAjustes);
     }
 
+    public void onclick_addJuego(View view){
+        String nombreJuego = et_nombreJuego.getText().toString();
+        et_nombreJuego.setText("");
 
+        try {
+            BDConnector.getInstance().addJuego(nombreJuego);
+        } catch (SQLException throwables) {
+            //TODO lanzar error por pantalla
+            Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        consultarJuegos();
+    }
 }

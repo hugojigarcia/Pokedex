@@ -12,16 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JuegosAnnapurna">
         <activity
-            android:name="com.example.pokedex.Ajustes"
+            android:name=".Zona"
             android:exported="false" />
         <activity
-            android:name="com.example.pokedex.vista_juego.ListaJuegos"
+            android:name=".Ruta"
             android:exported="false" />
         <activity
-            android:name="com.example.pokedex.vista_juego.VisualizarJuego"
+            android:name=".Ajustes"
             android:exported="false" />
         <activity
-            android:name="com.example.pokedex.MainActivity"
+            android:name=".vista_juego.ListaJuegos"
+            android:exported="false" />
+        <activity
+            android:name=".vista_juego.VisualizarJuego"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

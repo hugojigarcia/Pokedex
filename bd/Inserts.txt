@@ -1,0 +1,5 @@
+INSERT INTO Juego (nombreJuego)
+VALUES ("Escudo");
+
+INSERT INTO Ruta (nombreJuego, nombreRuta, totalEntrenadores, entrenadoresDerrotados)
+VALUES ("Escudo", "Ruta 1", 0, 0);

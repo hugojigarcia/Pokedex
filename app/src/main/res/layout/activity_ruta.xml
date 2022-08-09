@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pokedex.vista_juego.ListaJuegos">
+    tools:context="com.example.pokedex.Ruta">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_barraHerramientas"
@@ -48,7 +48,7 @@
                 android:id="@+id/tv_tituloBarra"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/listaJuegos_tituloVentana"
+                android:text="@string/ruta_tituloVentana"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -83,35 +83,49 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/boton_juegos"
+        app:layout_constraintBottom_toTopOf="@+id/bt_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_nombres"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tv_nombres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/listaJuegos_todo"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_barraHerramientas" />
 
-    <Button
-        android:id="@+id/boton_juegos"
-        android:layout_width="314dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="onclick_consultarJuegos"
-        android:text="@string/listaJuegos_botonConsultarJuegos"
+    <EditText
+        android:id="@+id/et_nombreRuta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="@string/casilla_nombre"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintEnd_toStartOf="@+id/et_totalEntrenadores"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/et_totalEntrenadores"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="@string/ruta_casillaTotalEntrenadores"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bt_add" />
+
+    <Button
+        android:id="@+id/bt_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="onclick_addRuta"
+        android:text="@string/boton_add"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,9 +4,13 @@
     <string name="barraHerramientas_ajustes">Ajustes</string>
     <string name="barraHerramientas_back">Back</string>
     <string name="barraHerramientas_home">Home</string>
+    <string name="boton_add">+</string>
+    <string name="casilla_nombre">Nombre</string>
 
     <string name="main_tituloVentana">Inicio</string>
-    <string name="main_botonJuegos">JUEGOS</string>
+
+    <string name="ruta_tituloVentana">Rutas</string>
+    <string name="ruta_casillaTotalEntrenadores">Entrenadores</string>
 
     <string name="ajustes_tituloVentana">Ajustes</string>
     <string name="ajustes_modoOscuro">Modo oscuro:</string>
@@ -22,6 +26,7 @@
     <string name="visualizarJuego_numEquipos">NUM EQUIPOS:</string>
     <string name="visualizarJuego_edadRecomendada">EDAD RECOMENDADA:</string>
     <string name="visualizarJuego_descripcion">DESCRIPCIÓN:</string>
+
 
 
 

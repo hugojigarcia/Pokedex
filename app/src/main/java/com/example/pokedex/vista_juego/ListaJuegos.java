@@ -35,7 +35,7 @@ public class ListaJuegos extends AppCompatActivity {
     }
 
     private void initComponents(){
-        listaJuegos = (ListView)findViewById(R.id.lista_juegos);
+        listaJuegos = (ListView)findViewById(R.id.lista_rutas);
 
         listaJuegos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
