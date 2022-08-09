@@ -3,10 +3,8 @@ package com.example.pokedex;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.hardware.camera2.TotalCaptureResult;
 import android.os.Bundle;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -47,14 +45,14 @@ public class Zona extends AppCompatActivity {
     }
 
     private void initComponents(){
-        et_nombreZona = (EditText) findViewById(R.id.et_nombreUbicacion);
+        et_nombreZona = (EditText) findViewById(R.id.et_nombrePokemon);
         tv_entrenadoresRestantes = (TextView) findViewById(R.id.tv_entrenadoresRestantes);
         initLista();
         consultarNumEntrenadores();
     }
 
     private void initLista(){
-        listaZonas = (ListView)findViewById(R.id.lista_ubicaciones);
+        listaZonas = (ListView)findViewById(R.id.lista_rutas);
 
         listaZonas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

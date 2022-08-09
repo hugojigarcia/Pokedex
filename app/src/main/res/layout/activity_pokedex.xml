@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pokedex.vista_juego.ListaJuegos">
+    tools:context=".Pokedex">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_barraHerramientas"
@@ -48,7 +48,7 @@
                 android:id="@+id/tv_tituloBarra"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/listaJuegos_tituloVentana"
+                android:text="@string/pokedex_tituloVentana"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -76,42 +76,80 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ListView
-        android:id="@+id/lista_rutas"
+        android:id="@+id/lista_pokemons"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/boton_juegos"
+        app:layout_constraintBottom_toTopOf="@+id/bt_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_nombres"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/bt_pokedex">
 
-    <TextView
-        android:id="@+id/tv_nombres"
+    </ListView>
+
+    <EditText
+        android:id="@+id/et_nombrePokemon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="@string/casilla_nombre"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/et_numero"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/et_numero"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="@string/pokedex_numero"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cb_capturado" />
+
+    <CheckBox
+        android:id="@+id/cb_capturado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/listaJuegos_todo"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_barraHerramientas" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/pokedex_capturado"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bt_add" />
 
     <Button
-        android:id="@+id/boton_juegos"
-        android:layout_width="314dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="onclick_consultarJuegos"
-        android:text="@string/listaJuegos_botonConsultarJuegos"
+        android:id="@+id/bt_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="onclick_addPokemon"
+        android:text="@string/boton_add"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/bt_pokedex"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/ruta_pokedex"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_barraHerramientas" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

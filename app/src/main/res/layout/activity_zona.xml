@@ -76,7 +76,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ListView
-        android:id="@+id/lista_ubicaciones"
+        android:id="@+id/lista_rutas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/layout_barraHerramientas" />
 
     <EditText
-        android:id="@+id/et_nombreUbicacion"
+        android:id="@+id/et_nombrePokemon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

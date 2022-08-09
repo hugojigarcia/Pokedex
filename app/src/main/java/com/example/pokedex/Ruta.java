@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Ruta extends AppCompatActivity {
-    private Intent pantallaZona;
+    private Intent pantallaZona, pantallaPokedex;
     private ListView listaRutas;
     private String nombreJuego;
     private EditText et_nombreRuta, et_totalEntrenadores;
@@ -28,6 +28,7 @@ public class Ruta extends AppCompatActivity {
         initToolBar();
         initComponents();
         pantallaZona = new Intent(this, Zona.class);
+        pantallaPokedex = new Intent(this, Pokedex.class);
     }
 
     private void recoverData(){
@@ -40,13 +41,13 @@ public class Ruta extends AppCompatActivity {
     }
 
     private void initComponents(){
-        et_nombreRuta = (EditText) findViewById(R.id.et_nombreUbicacion);
-        et_totalEntrenadores = (EditText) findViewById(R.id.et_totalEntrenadores);
+        et_nombreRuta = (EditText) findViewById(R.id.et_nombrePokemon);
+        et_totalEntrenadores = (EditText) findViewById(R.id.et_numero);
         initLista();
     }
 
     private void initLista(){
-        listaRutas = (ListView)findViewById(R.id.lista_ubicaciones);
+        listaRutas = (ListView)findViewById(R.id.lista_rutas);
 
         listaRutas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,6 +84,11 @@ public class Ruta extends AppCompatActivity {
         }
 
         consultarRutas();
+    }
+
+    public void onclick_irAPokedex(View view){
+        pantallaPokedex.putExtra("Juego", nombreJuego);
+        startActivity(pantallaPokedex);
     }
 
     public void onclick_irAInicio(View view){

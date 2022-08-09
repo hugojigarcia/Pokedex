@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Ubicacion extends AppCompatActivity {
-    private Intent pantallaPokemons, pantallaZona; //Modify
+    private Intent pantallaPokemon, pantallaZona; //Modify
     private ListView listaUbicaciones;
     private String nombreJuego, nombreRuta, nombreZona;
     private EditText et_nombreUbicacion;
@@ -27,7 +27,7 @@ public class Ubicacion extends AppCompatActivity {
         recoverData();
         initToolBar();
         initComponents();
-        pantallaPokemons = new Intent(this, Pokemons.class); //Modify
+        pantallaPokemon = new Intent(this, Pokemon.class); //Modify
         pantallaZona = new Intent(this, Zona.class); //Modify
     }
 
@@ -43,21 +43,21 @@ public class Ubicacion extends AppCompatActivity {
     }
 
     private void initComponents(){
-        et_nombreUbicacion = (EditText) findViewById(R.id.et_nombreUbicacion);
+        et_nombreUbicacion = (EditText) findViewById(R.id.et_nombrePokemon);
         initLista();
     }
 
     private void initLista(){
-        listaUbicaciones = (ListView)findViewById(R.id.lista_ubicaciones);
+        listaUbicaciones = (ListView)findViewById(R.id.lista_rutas);
 
         listaUbicaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                pantallaPokemons.putExtra("Juego", nombreJuego);
-                pantallaPokemons.putExtra("Ruta", nombreRuta);
-                pantallaPokemons.putExtra("Zona", nombreZona);
-                pantallaPokemons.putExtra("Ubicacion", (String) listaUbicaciones.getItemAtPosition(i)); //Modify
-                startActivity(pantallaPokemons);
+                pantallaPokemon.putExtra("Juego", nombreJuego);
+                pantallaPokemon.putExtra("Ruta", nombreRuta);
+                pantallaPokemon.putExtra("Zona", nombreZona);
+                pantallaPokemon.putExtra("Ubicacion", (String) listaUbicaciones.getItemAtPosition(i)); //Modify
+                startActivity(pantallaPokemon);
             }
         });
         consultarUbicaciones();

@@ -184,6 +184,30 @@ public class BDConnector {
         statement.close();
     }
 
+    public ArrayList<String> leerListaPokemons(String nombreJuego) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT nombreRuta FROM Ruta WHERE nombreJuego= (?) ");
+
+        statement.setString(1, nombreJuego);
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<String> resultado = new ArrayList();
+        while(resultSet.next()) {
+            resultado.add(resultSet.getString(1));
+        }
+
+        statement.close();
+        return resultado;
+    }
+
+    public void addPokemon (String nombreJuego, String nombrePokemon, int numero, boolean capturado) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Ruta (nombreJuego, nombreRuta, totalEntrenadores, entrenadoresDerrotados) VALUES (?, ?, ?, 0)");
+        /*statement.setString(1, nombreJuego);
+        statement.setString(2, nombreRuta);
+        statement.setInt(3, totalEntrenadores);*/
+        statement.execute();
+        statement.close();
+    }
+
     public Juego leerJuego (String nombres) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT juegoID, minPersonas, maxPersonas, numEquipos, edadRecomendada, descripcion, nombres\n" +
                                                                      "FROM Juego WHERE nombres= (?) ");

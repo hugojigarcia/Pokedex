@@ -14,6 +14,7 @@
     <string name="main_tituloVentana">Inicio</string>
 
     <string name="ruta_tituloVentana">Rutas</string>
+    <string name="ruta_pokedex">Pokedex</string>
     <string name="ruta_casillaTotalEntrenadores">Entrenadores</string>
 
     <string name="zona_tituloVentana">Zonas</string>
@@ -21,6 +22,9 @@
 
     <string name="ubicacion_tituloVentana">Ubicación</string>
 
+    <string name="pokedex_tituloVentana">Pokedex</string>
+    <string name="pokedex_numero">Num</string>
+    <string name="pokedex_capturado">Capt</string>
 
 
     <string name="listaJuegos_tituloVentana">Juegos</string>
