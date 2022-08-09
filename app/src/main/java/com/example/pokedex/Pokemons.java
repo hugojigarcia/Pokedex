@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,25 +15,27 @@ import android.widget.Toast;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Pokedex extends AppCompatActivity {
-    private Intent pantallaRuta;
+public class Pokemons extends AppCompatActivity {
+    private Intent pantallaUbicacion;
     private ListView listaPokemons;
-    private String nombreJuego;
-    private EditText et_nombrePokemon;
-    private CheckBox cb_capturado;
+    private String nombreJuego, nombreRuta, nombreZona, nombreUbicacion;
+    private EditText et_nombrePokemon, et_probabilidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pokedex);
+        setContentView(R.layout.activity_pokemons);
         recoverData();
         initToolBar();
         initComponents();
-        pantallaRuta = new Intent(this, Ruta.class);
+        pantallaUbicacion = new Intent(this, Ubicacion.class);
     }
 
     private void recoverData(){
         nombreJuego = getIntent().getStringExtra("Juego");
+        nombreRuta = getIntent().getStringExtra("Ruta");
+        nombreZona = getIntent().getStringExtra("Zona");
+        nombreUbicacion = getIntent().getStringExtra("Ubicacion");
     }
 
     private void initToolBar(){
@@ -44,7 +45,7 @@ public class Pokedex extends AppCompatActivity {
 
     private void initComponents(){
         et_nombrePokemon = (EditText) findViewById(R.id.et_nombrePokemon);
-        cb_capturado = (CheckBox) findViewById(R.id.cb_capturado);
+        et_probabilidad = (EditText) findViewById(R.id.et_probabilidad);
         initLista();
     }
 
@@ -53,7 +54,7 @@ public class Pokedex extends AppCompatActivity {
         listaPokemons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String nombrePokemon = listaPokemons.getItemAtPosition(i).toString().substring(6);
+                String nombrePokemon = listaPokemons.getItemAtPosition(i).toString().split(" ")[1];
                 actualizarPokemon(nombrePokemon, listaPokemons.isItemChecked(i));
             }
         });
@@ -62,7 +63,7 @@ public class Pokedex extends AppCompatActivity {
 
     private void consultarPokemons(){
         try {
-            ArrayList<Pokemon> pokemons = BDConnector.getInstance().leerPokedex(nombreJuego); //Modify
+            ArrayList<Pokemon> pokemons = BDConnector.getInstance().leerListaPokemons(nombreJuego, nombreRuta, nombreZona, nombreUbicacion); //TODO Modify
             ArrayList<String> opciones = convertirArrayNombres(pokemons);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, opciones);
             listaPokemons.setAdapter(adapter);
@@ -76,7 +77,7 @@ public class Pokedex extends AppCompatActivity {
         ArrayList<String> resultado = new ArrayList();
         for(int i=0; i<pokemons.size();i++){
             Pokemon pokemon = pokemons.get(i);
-            resultado.add(String.format("%04d", pokemon.getNumero())+"- "+pokemon.getNombre());
+            resultado.add(String.format("%04d", pokemon.getNumero())+"- "+pokemon.getNombre()+" "+pokemon.getProbabilidad()+"%");
         }
         return resultado;
     }
@@ -112,8 +113,17 @@ public class Pokedex extends AppCompatActivity {
 
     public void onclick_addPokemon(View view){
         String nombrePokemon = et_nombrePokemon.getText().toString();
-        boolean capturado = cb_capturado.isChecked();
-        actualizarPokemon(nombrePokemon, capturado);
+        int probabilidad = Integer.parseInt(et_probabilidad.getText().toString());
+
+        try {
+            BDConnector.getInstance().addPokemon(nombreJuego, nombreRuta, nombreZona, nombreUbicacion, nombrePokemon, probabilidad);
+            et_nombrePokemon.setText("");
+            et_probabilidad.setText("");
+        } catch (SQLException throwables) {
+            //TODO lanzar error por pantalla
+            Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
         consultarPokemons();
     }
 
@@ -121,8 +131,6 @@ public class Pokedex extends AppCompatActivity {
         try {
             if(BDConnector.getInstance().consultarPokemon(nombrePokemon)!=null){
                 BDConnector.getInstance().addPokemonCapturado(nombreJuego, nombrePokemon, capturado);
-                et_nombrePokemon.setText("");
-                cb_capturado.setChecked(false);
             } else {
                 Toast.makeText(this, "El nombre del Pokemon no es correcto", Toast.LENGTH_SHORT).show();
             }
@@ -137,7 +145,9 @@ public class Pokedex extends AppCompatActivity {
     }
 
     public void onclick_back(View view){
-        pantallaRuta.putExtra("Juego", nombreJuego);
-        startActivity(pantallaRuta);
+        pantallaUbicacion.putExtra("Juego", nombreJuego);
+        pantallaUbicacion.putExtra("Ruta", nombreRuta);
+        pantallaUbicacion.putExtra("Zona", nombreZona);
+        startActivity(pantallaUbicacion);
     } //Modify
 }

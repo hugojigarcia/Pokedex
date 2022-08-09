@@ -184,28 +184,98 @@ public class BDConnector {
         statement.close();
     }
 
-    public ArrayList<String> leerListaPokemons(String nombreJuego) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT nombreRuta FROM Ruta WHERE nombreJuego= (?) ");
+    public ArrayList<Pokemon> leerListaPokemons(String nombreJuego, String nombreRuta, String nombreZona, String nombreUbicacion) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT ubicacion_pokemon.nombrePokemon, numero, probabilidad, capturado " +
+                "FROM ubicacion_pokemon INNER JOIN Pokemon ON ubicacion_pokemon.nombrePokemon=Pokemon.nombrePokemon " +
+                "INNER JOIN juego_pokemon ON Pokemon.nombrePokemon=juego_pokemon.nombrePokemon " +
+                "WHERE ubicacion_pokemon.nombreJuego=juego_pokemon.nombreJuego AND ubicacion_pokemon.nombreJuego=? " +
+                "AND nombreRuta=? AND nombreZona=? AND nombreUbicacion=? ORDER BY probabilidad DESC, numero ASC");
 
         statement.setString(1, nombreJuego);
+        statement.setString(2, nombreRuta);
+        statement.setString(3, nombreZona);
+        statement.setString(4, nombreUbicacion);
         ResultSet resultSet = statement.executeQuery();
 
-        ArrayList<String> resultado = new ArrayList();
+        ArrayList<Pokemon> resultado = new ArrayList();
         while(resultSet.next()) {
-            resultado.add(resultSet.getString(1));
+            resultado.add(new Pokemon(resultSet.getString("nombrePokemon"), resultSet.getInt("numero"),
+                    resultSet.getBoolean("capturado"), resultSet.getInt("probabilidad")));
         }
 
         statement.close();
         return resultado;
     }
 
-    public void addPokemon (String nombreJuego, String nombrePokemon, int numero, boolean capturado) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Ruta (nombreJuego, nombreRuta, totalEntrenadores, entrenadoresDerrotados) VALUES (?, ?, ?, 0)");
-        /*statement.setString(1, nombreJuego);
+    public void addPokemon(String nombreJuego, String nombreRuta, String nombreZona, String nombreUbicacion, String nombrePokemon, int probablidad) throws SQLException {
+        if(!comprobarYaAdd(nombreJuego, nombrePokemon)){
+            addPokemonCapturado(nombreJuego, nombrePokemon, false);
+        }
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO ubicacion_pokemon (nombreJuego, nombreRuta, nombreZona, nombreUbicacion, " +
+                "nombrePokemon, probabilidad) VALUES (?, ?, ?, ?, ?, ?)");
+        statement.setString(1, nombreJuego);
         statement.setString(2, nombreRuta);
-        statement.setInt(3, totalEntrenadores);*/
+        statement.setString(3, nombreZona);
+        statement.setString(4, nombreUbicacion);
+        statement.setString(5, nombrePokemon);
+        statement.setInt(6, probablidad);
         statement.execute();
         statement.close();
+    }
+
+    public ArrayList<Pokemon> leerPokedex(String nombreJuego) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT Pokemon.nombrePokemon, numero, capturado " +
+                "FROM Pokemon INNER JOIN juego_pokemon ON Pokemon.nombrePokemon=juego_pokemon.nombrePokemon " +
+                "WHERE nombreJuego=? ORDER BY numero ASC");
+
+        statement.setString(1, nombreJuego);
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<Pokemon> resultado = new ArrayList();
+        while(resultSet.next()) {
+            resultado.add(new Pokemon(resultSet.getString("nombrePokemon"), resultSet.getInt("numero"), resultSet.getBoolean("capturado")));
+        }
+
+        statement.close();
+        return resultado;
+    }
+
+    public void addPokemonCapturado(String nombreJuego, String nombrePokemon, boolean capturado) throws SQLException {
+        if(comprobarYaAdd(nombreJuego, nombrePokemon)) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE juego_pokemon SET capturado = ? WHERE nombreJuego=? AND nombrePokemon=?");
+            statement.setBoolean(1, capturado);
+            statement.setString(2, nombreJuego);
+            statement.setString(3, nombrePokemon);
+            statement.execute();
+            statement.close();
+        } else {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO juego_pokemon (nombreJuego, nombrePokemon, capturado) VALUES (?, ?, ?)");
+            statement.setString(1, nombreJuego);
+            statement.setString(2, nombrePokemon);
+            statement.setBoolean(3, capturado);
+            statement.execute();
+            statement.close();
+        }
+    }
+
+    public boolean comprobarYaAdd (String nombreJuego, String nombrePokemon) throws SQLException{
+        PreparedStatement statement = connection.prepareStatement("SELECT nombrePokemon FROM juego_pokemon WHERE nombreJuego=? AND nombrePokemon=?");
+        statement.setString(1, nombreJuego);
+        statement.setString(2, nombrePokemon);
+        return statement.executeQuery().next();
+    }
+
+    public Pokemon consultarPokemon (String nombrePokemon) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT nombrePokemon, numero FROM Pokemon WHERE nombrePokemon=?");
+        statement.setString(1, nombrePokemon);
+        ResultSet resultSet = statement.executeQuery();
+
+        Pokemon pokemon = null;
+        if(resultSet.next()) {
+            pokemon = new Pokemon(resultSet.getString("nombrePokemon"), resultSet.getInt("numero"), false);
+        }
+        statement.close();
+        return pokemon;
     }
 
     public Juego leerJuego (String nombres) throws SQLException {

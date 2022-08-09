@@ -27,7 +27,7 @@ public class Ubicacion extends AppCompatActivity {
         recoverData();
         initToolBar();
         initComponents();
-        pantallaPokemon = new Intent(this, Pokemon.class); //Modify
+        pantallaPokemon = new Intent(this, Pokemons.class); //Modify
         pantallaZona = new Intent(this, Zona.class); //Modify
     }
 
@@ -76,9 +76,6 @@ public class Ubicacion extends AppCompatActivity {
     public void onclick_addUbicacion(View view){
         String nombreUbicacion = et_nombreUbicacion.getText().toString();
         et_nombreUbicacion.setText("");
-
-        String mensaje = "INSERT INTO Ubicacion (nombreJuego, nombreRuta, nombreZona, nombreUbicacion) VALUES ("+nombreJuego+", "+nombreRuta+", "+nombreZona+", "+nombreUbicacion+")";
-        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
 
         try {
             BDConnector.getInstance().addUbicacion(nombreJuego, nombreRuta, nombreZona, nombreUbicacion);

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Pokedex</string>
 
+    <string name="done">done</string>
     <string name="boton_add">+</string>
     <string name="casilla_nombre">Nombre</string>
 
@@ -22,9 +23,11 @@
 
     <string name="ubicacion_tituloVentana">Ubicación</string>
 
+    <string name="pokemons_tituloVentana">Pokemons</string>
+    <string name="pokemons_probabilidad">%</string>
+
     <string name="pokedex_tituloVentana">Pokedex</string>
-    <string name="pokedex_numero">Num</string>
-    <string name="pokedex_capturado">Capt</string>
+    <string name="pokedex_capturado">Capturado</string>
 
 
     <string name="listaJuegos_tituloVentana">Juegos</string>

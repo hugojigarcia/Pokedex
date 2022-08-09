@@ -83,6 +83,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:choiceMode="multipleChoice"
         app:layout_constraintBottom_toTopOf="@+id/bt_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -102,20 +103,8 @@
         android:hint="@string/casilla_nombre"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/et_numero"
+        app:layout_constraintEnd_toStartOf="@+id/cb_capturado"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/et_numero"
-        android:layout_width="45dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="@string/pokedex_numero"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cb_capturado" />
 
     <CheckBox
         android:id="@+id/cb_capturado"
@@ -147,6 +136,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
+        android:enabled="false"
         android:text="@string/ruta_pokedex"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

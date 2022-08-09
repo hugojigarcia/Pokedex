@@ -15,7 +15,7 @@
             android:name=".Pokedex"
             android:exported="false" />
         <activity
-            android:name=".Pokemon"
+            android:name=".Pokemons"
             android:exported="false" />
         <activity
             android:name=".Ubicacion"
