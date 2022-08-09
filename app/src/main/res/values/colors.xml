@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_light">#4CAF50</color>
-    <color name="primaryVariant_light">#388E3C</color>
-    <color name="primary_dark">#2B2B2B</color>
-    <color name="primaryVariant_dark">#212121</color>
+    <color name="primary_light">#BF2121</color>
+    <color name="primaryVariant_light">#BF2121</color>
+    <color name="primary_dark">#A33131</color>
+    <color name="primaryVariant_dark">#A33131</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="textSecondary_light">#4A4A4A</color>
