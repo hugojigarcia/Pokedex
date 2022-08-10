@@ -208,19 +208,44 @@ public class BDConnector {
     }
 
     public void addPokemon(String nombreJuego, String nombreRuta, String nombreZona, String nombreUbicacion, String nombrePokemon, int probablidad) throws SQLException {
-        if(!comprobarYaAdd(nombreJuego, nombrePokemon)){
+        if(!comprobarYaAddPokedex(nombreJuego, nombrePokemon)){
             addPokemonCapturado(nombreJuego, nombrePokemon, false);
         }
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO ubicacion_pokemon (nombreJuego, nombreRuta, nombreZona, nombreUbicacion, " +
-                "nombrePokemon, probabilidad) VALUES (?, ?, ?, ?, ?, ?)");
+        if(comprobarYaAdd(nombreJuego, nombreRuta, nombreZona, nombreUbicacion, nombrePokemon)){
+            PreparedStatement statement = connection.prepareStatement("UPDATE ubicacion_pokemon SET probabilidad=? " +
+                    "WHERE nombreJuego=? AND nombreRuta=? AND nombreZona=? AND nombreUbicacion=? AND nombrePokemon=?");
+            statement.setInt(1, probablidad);
+            statement.setString(2, nombreJuego);
+            statement.setString(3, nombreRuta);
+            statement.setString(4, nombreZona);
+            statement.setString(5, nombreUbicacion);
+            statement.setString(6, nombrePokemon);
+            System.out.println("*********** "+statement.toString());
+            statement.execute();
+            statement.close();
+        } else {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO ubicacion_pokemon (nombreJuego, nombreRuta, nombreZona, nombreUbicacion, " +
+                    "nombrePokemon, probabilidad) VALUES (?, ?, ?, ?, ?, ?)");
+            statement.setString(1, nombreJuego);
+            statement.setString(2, nombreRuta);
+            statement.setString(3, nombreZona);
+            statement.setString(4, nombreUbicacion);
+            statement.setString(5, nombrePokemon);
+            statement.setInt(6, probablidad);
+            statement.execute();
+            statement.close();
+        }
+    }
+
+    public boolean comprobarYaAdd(String nombreJuego, String nombreRuta, String nombreZona, String nombreUbicacion, String nombrePokemon) throws SQLException{
+        PreparedStatement statement = connection.prepareStatement("SELECT nombrePokemon FROM ubicacion_pokemon " +
+                "WHERE nombreJuego=? AND nombreRuta=? AND nombreZona=? AND nombreUbicacion=? AND nombrePokemon=?");
         statement.setString(1, nombreJuego);
         statement.setString(2, nombreRuta);
         statement.setString(3, nombreZona);
         statement.setString(4, nombreUbicacion);
         statement.setString(5, nombrePokemon);
-        statement.setInt(6, probablidad);
-        statement.execute();
-        statement.close();
+        return statement.executeQuery().next();
     }
 
     public ArrayList<Pokemon> leerPokedex(String nombreJuego) throws SQLException {
@@ -259,7 +284,7 @@ public class BDConnector {
     }
 
     public void addPokemonCapturado(String nombreJuego, String nombrePokemon, boolean capturado) throws SQLException {
-        if(comprobarYaAdd(nombreJuego, nombrePokemon)) {
+        if(comprobarYaAddPokedex(nombreJuego, nombrePokemon)) {
             PreparedStatement statement = connection.prepareStatement("UPDATE juego_pokemon SET capturado = ? WHERE nombreJuego=? AND nombrePokemon=?");
             statement.setBoolean(1, capturado);
             statement.setString(2, nombreJuego);
@@ -276,7 +301,7 @@ public class BDConnector {
         }
     }
 
-    public boolean comprobarYaAdd (String nombreJuego, String nombrePokemon) throws SQLException{
+    public boolean comprobarYaAddPokedex(String nombreJuego, String nombrePokemon) throws SQLException{
         PreparedStatement statement = connection.prepareStatement("SELECT nombrePokemon FROM juego_pokemon WHERE nombreJuego=? AND nombrePokemon=?");
         statement.setString(1, nombreJuego);
         statement.setString(2, nombrePokemon);
