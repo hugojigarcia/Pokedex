@@ -42,7 +42,7 @@ public class Pokedex extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    private void initComponents(){
+    private void initComponents() {
         et_busqueda = (EditText) findViewById(R.id.et_busqueda);
         et_nombrePokemon = (EditText) findViewById(R.id.et_nombrePokemon);
         cb_capturado = (CheckBox) findViewById(R.id.cb_capturado);

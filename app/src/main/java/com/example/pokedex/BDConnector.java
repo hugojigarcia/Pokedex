@@ -21,9 +21,13 @@ import java.util.ArrayList;
 public class BDConnector {
     private static final BDConnector INSTANCE = new BDConnector();
     private static Connection connection;
+    private static String urlAnterior, userAnterior, passwordAnterior;
 
     private BDConnector(){
         connection = null;
+        urlAnterior = null;
+        userAnterior = null;
+        passwordAnterior = null;
     }
 
     public static BDConnector getInstance() throws SQLException {
@@ -32,10 +36,10 @@ public class BDConnector {
     }
 
     public static void connect(String url, String user, String password) throws SQLException, ClassNotFoundException {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        Class.forName("com.mysql.jdbc.Driver");
-        connection = DriverManager.getConnection(url, user, password);
+        urlAnterior = url;
+        userAnterior = user;
+        passwordAnterior = password;
+        reconectar();
     }
 
     public static void connect(InputStream inputStream) throws ClassNotFoundException, IOException, SQLException {
@@ -56,11 +60,19 @@ public class BDConnector {
         return new BufferedReader(is);
     }
 
+    private static void reconectar() throws SQLException, ClassNotFoundException{
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Class.forName("com.mysql.jdbc.Driver");
+        connection = DriverManager.getConnection(urlAnterior, userAnterior, passwordAnterior);
+    }
+
     public static void closeConnection() throws SQLException {
        if(connection!=null) connection.close();
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() throws SQLException, ClassNotFoundException {
+        if(connection.isClosed()) reconectar();
         return connection;
     }
 

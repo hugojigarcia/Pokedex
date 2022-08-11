@@ -12,7 +12,7 @@ import java.util.List;
 public class JuegoModel implements IJuegoModel{
     private Connection connection;
 
-    public JuegoModel() throws SQLException {
+    public JuegoModel() throws SQLException, ClassNotFoundException {
         connection = BDConnector.getInstance().getConnection();
     }
 
