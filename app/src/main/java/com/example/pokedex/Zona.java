@@ -12,6 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pokedex.bd.BDRuta;
+import com.example.pokedex.bd.BDZona;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -68,7 +71,7 @@ public class Zona extends AppCompatActivity {
 
     private void consultarZonas(){
         try {
-            ArrayList<String> opciones = BDConnector.getInstance().leerListaZonas(nombreJuego, nombreRuta); //TODO Modify
+            ArrayList<String> opciones = BDZona.getInstance().leerListaZonas(nombreJuego, nombreRuta);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, opciones);
             listaZonas.setAdapter(adapter);
         } catch (Exception e) {
@@ -78,11 +81,11 @@ public class Zona extends AppCompatActivity {
 
     private void consultarNumEntrenadores(){
         try {
-            int[] entrenadores = BDConnector.getInstance().leerEntrenadoresDeRuta(nombreJuego, nombreRuta);
+            int[] entrenadores = BDRuta.getInstance().leerEntrenadoresDeRuta(nombreJuego, nombreRuta);
             this.entrenadoresDerrotados = entrenadores[0];
             this.totalEntrenadores = entrenadores[1];
             actualizarTextoEntrenadores();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             //TODO lanzar error por pantalla
             Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -97,8 +100,8 @@ public class Zona extends AppCompatActivity {
         et_nombreZona.setText("");
 
         try {
-            BDConnector.getInstance().addZona(nombreJuego, nombreRuta, nombreZona);
-        } catch (SQLException throwables) {
+            BDZona.getInstance().addZona(nombreJuego, nombreRuta, nombreZona);
+        } catch (SQLException | ClassNotFoundException throwables) {
             //TODO lanzar error por pantalla
             Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -109,27 +112,25 @@ public class Zona extends AppCompatActivity {
     public void onclick_disminuirEntrenadores(View view){
         if(entrenadoresDerrotados>0) {
             this.entrenadoresDerrotados--;
-            try {
-                BDConnector.getInstance().setEntrenadoresDeRuta(nombreJuego, nombreRuta, entrenadoresDerrotados);
-            } catch (SQLException throwables) {
-                //TODO lanzar error por pantalla
-                Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
-            }
-            actualizarTextoEntrenadores();
+            cambiarEntrenadoresDeRuta();
         }
     }
 
     public void onclick_aumentarEntrenadores(View view){
         if(entrenadoresDerrotados<totalEntrenadores) {
             this.entrenadoresDerrotados++;
-            try {
-                BDConnector.getInstance().setEntrenadoresDeRuta(nombreJuego, nombreRuta, entrenadoresDerrotados);
-            } catch (SQLException throwables) {
-                //TODO lanzar error por pantalla
-                Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
-            }
-            actualizarTextoEntrenadores();
+            cambiarEntrenadoresDeRuta();
         }
+    }
+
+    private void cambiarEntrenadoresDeRuta(){
+        try {
+            BDRuta.getInstance().setEntrenadoresDeRuta(nombreJuego, nombreRuta, entrenadoresDerrotados);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            //TODO lanzar error por pantalla
+            Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        actualizarTextoEntrenadores();
     }
 
     public void onclick_irAInicio(View view){

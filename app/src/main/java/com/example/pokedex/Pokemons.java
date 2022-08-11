@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.pokedex.bd.BDPokedex;
+import com.example.pokedex.bd.BDPokemons;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -55,21 +58,30 @@ public class Pokemons extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String nombrePokemon = listaPokemons.getItemAtPosition(i).toString().split(" ")[1];
-                actualizarPokemon(nombrePokemon, listaPokemons.isItemChecked(i));
+                setPokemonCapturado(nombrePokemon, listaPokemons.isItemChecked(i));
             }
         });
         consultarPokemons();
     }
 
+    private void setPokemonCapturado(String nombrePokemon, boolean capturado){
+        try {
+            BDPokedex.getInstance().addPokemonAPokedex(nombreJuego, nombrePokemon, capturado);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            //TODO lanzar error por pantalla
+            Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void consultarPokemons(){
         try {
-            ArrayList<Pokemon> pokemons = BDConnector.getInstance().leerListaPokemons(nombreJuego, nombreRuta, nombreZona, nombreUbicacion); //TODO Modify
+            ArrayList<Pokemon> pokemons = BDPokemons.getInstance().leerListaPokemons(nombreJuego, nombreRuta, nombreZona, nombreUbicacion);
             ArrayList<String> opciones = convertirArrayNombres(pokemons);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, opciones);
             listaPokemons.setAdapter(adapter);
             checkACapturados(pokemons);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -94,32 +106,19 @@ public class Pokemons extends AppCompatActivity {
         return true;
     }
 
-    /*@Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        /*int id = item.getItemId();
-        if(id==R.id.item_done){
-            String itemSelected = "Selected items: \n";
-            for(int i=0; i<listaPokemons.getCount();i++) {
-                if (listaPokemons.isItemChecked(i)) {
-                    itemSelected += listaPokemons.getItemAtPosition(i) + "\n";
-                }
-            }
-        }
-        Toast.makeText(this, "Elegido " +item.getItemId(), Toast.LENGTH_SHORT).show();
-
-        //return super.onOptionsItemSelected(item);
-        return true;
-    }*/
-
     public void onclick_addPokemon(View view){
         String nombrePokemon = et_nombrePokemon.getText().toString();
         int probabilidad = Integer.parseInt(et_probabilidad.getText().toString());
 
         try {
-            BDConnector.getInstance().addPokemon(nombreJuego, nombreRuta, nombreZona, nombreUbicacion, nombrePokemon, probabilidad);
-            et_nombrePokemon.setText("");
-            et_probabilidad.setText("");
-        } catch (SQLException throwables) {
+            if(BDPokedex.getInstance().existePokemon(nombrePokemon)) {
+                BDPokemons.getInstance().addPokemonAUbicacion(nombreJuego, nombreRuta, nombreZona, nombreUbicacion, nombrePokemon, probabilidad);
+                et_nombrePokemon.setText("");
+                et_probabilidad.setText("");
+            } else {
+                Toast.makeText(this, "El nombre del Pokemon no es correcto", Toast.LENGTH_SHORT).show();
+            }
+        } catch (SQLException | ClassNotFoundException throwables) {
             //TODO lanzar error por pantalla
             Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -127,18 +126,7 @@ public class Pokemons extends AppCompatActivity {
         consultarPokemons();
     }
 
-    private void actualizarPokemon(String nombrePokemon, boolean capturado){
-        try {
-            if(BDConnector.getInstance().consultarPokemon(nombrePokemon)!=null){
-                BDConnector.getInstance().addPokemonCapturado(nombreJuego, nombrePokemon, capturado);
-            } else {
-                Toast.makeText(this, "El nombre del Pokemon no es correcto", Toast.LENGTH_SHORT).show();
-            }
-        } catch (SQLException throwables) {
-            //TODO lanzar error por pantalla
-            Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
+
 
     public void onclick_irAInicio(View view){
         startActivity(new Intent(this, MainActivity.class));

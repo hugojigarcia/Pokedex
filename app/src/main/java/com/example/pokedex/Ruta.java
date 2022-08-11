@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.pokedex.bd.BDRuta;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -62,7 +64,7 @@ public class Ruta extends AppCompatActivity {
 
     private void consultarRutas(){
         try {
-            ArrayList<String> opciones = BDConnector.getInstance().leerListaRutas(nombreJuego); //Modify
+            ArrayList<String> opciones = BDRuta.getInstance().leerListaRutas(nombreJuego); //Modify
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, opciones);
             listaRutas.setAdapter(adapter);
         } catch (Exception e) {
@@ -77,8 +79,8 @@ public class Ruta extends AppCompatActivity {
         et_totalEntrenadores.setText("");
 
         try {
-            BDConnector.getInstance().addRuta(nombreJuego, nombreRuta, totalEntrenadores);
-        } catch (SQLException throwables) {
+            BDRuta.getInstance().addRuta(nombreJuego, nombreRuta, totalEntrenadores);
+        } catch (SQLException | ClassNotFoundException throwables) {
             //TODO lanzar error por pantalla
             Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
         }

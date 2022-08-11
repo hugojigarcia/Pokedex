@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.pokedex.bd.BDPokedex;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -63,7 +65,7 @@ public class Pokedex extends AppCompatActivity {
 
     private void consultarPokemons(){
         try {
-            ArrayList<Pokemon> pokemons = BDConnector.getInstance().leerPokedex(nombreJuego); //Modify
+            ArrayList<Pokemon> pokemons = BDPokedex.getInstance().leerPokedex(nombreJuego); //Modify
             ArrayList<String> opciones = convertirArrayNombres(pokemons);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, opciones);
             listaPokemons.setAdapter(adapter);
@@ -94,23 +96,6 @@ public class Pokedex extends AppCompatActivity {
         return true;
     }
 
-    /*@Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        /*int id = item.getItemId();
-        if(id==R.id.item_done){
-            String itemSelected = "Selected items: \n";
-            for(int i=0; i<listaPokemons.getCount();i++) {
-                if (listaPokemons.isItemChecked(i)) {
-                    itemSelected += listaPokemons.getItemAtPosition(i) + "\n";
-                }
-            }
-        }
-        Toast.makeText(this, "Elegido " +item.getItemId(), Toast.LENGTH_SHORT).show();
-
-        //return super.onOptionsItemSelected(item);
-        return true;
-    }*/
-
     public void onclick_addPokemon(View view){
         String nombrePokemon = et_nombrePokemon.getText().toString();
         boolean capturado = cb_capturado.isChecked();
@@ -120,14 +105,14 @@ public class Pokedex extends AppCompatActivity {
 
     private void actualizarPokemon(String nombrePokemon, boolean capturado){
         try {
-            if(BDConnector.getInstance().consultarPokemon(nombrePokemon)!=null){
-                BDConnector.getInstance().addPokemonCapturado(nombreJuego, nombrePokemon, capturado);
+            if(BDPokedex.getInstance().existePokemon(nombrePokemon)){
+                BDPokedex.getInstance().addPokemonAPokedex(nombreJuego, nombrePokemon, capturado);
                 et_nombrePokemon.setText("");
                 cb_capturado.setChecked(false);
             } else {
                 Toast.makeText(this, "El nombre del Pokemon no es correcto", Toast.LENGTH_SHORT).show();
             }
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             //TODO lanzar error por pantalla
             Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -136,7 +121,7 @@ public class Pokedex extends AppCompatActivity {
     public void onclick_buscar(View view){
         String buscar = et_busqueda.getText().toString();
         try {
-            ArrayList<Pokemon> pokemons = BDConnector.getInstance().buscarPokedex(nombreJuego, buscar);
+            ArrayList<Pokemon> pokemons = BDPokedex.getInstance().busquedaEnPokedex(nombreJuego, buscar);
             ArrayList<String> opciones = convertirArrayNombres(pokemons);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, opciones);
             listaPokemons.setAdapter(adapter);

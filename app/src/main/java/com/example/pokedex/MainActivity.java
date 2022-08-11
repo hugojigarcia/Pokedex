@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.pokedex.bd.BDJuego;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         try {
-            BDConnector.closeConnection();
+            BDConnector.getInstance().closeConnection();
         } catch (SQLException ignored) { }
     }
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void consultarJuegos(){
         try {
-            ArrayList<String> opciones = BDConnector.getInstance().leerListaJuegos(); //Modify
+            ArrayList<String> opciones = BDJuego.getInstance().leerListaJuegos(); //Modify
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, opciones);
             listaJuegos.setAdapter(adapter);
         } catch (Exception e) {
@@ -99,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         et_nombreJuego.setText("");
 
         try {
-            BDConnector.getInstance().addJuego(nombreJuego);
-        } catch (SQLException throwables) {
+            BDJuego.getInstance().addJuego(nombreJuego);
+        } catch (SQLException | ClassNotFoundException throwables) {
             //TODO lanzar error por pantalla
             Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
         }

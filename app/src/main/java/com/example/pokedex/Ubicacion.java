@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.pokedex.bd.BDUbicacion;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -65,11 +67,11 @@ public class Ubicacion extends AppCompatActivity {
 
     private void consultarUbicaciones(){
         try {
-            ArrayList<String> opciones = BDConnector.getInstance().leerListaUbicaciones(nombreJuego, nombreRuta, nombreZona); //TODO Modify
+            ArrayList<String> opciones = BDUbicacion.getInstance().leerListaUbicaciones(nombreJuego, nombreRuta, nombreZona);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, opciones);
             listaUbicaciones.setAdapter(adapter);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -78,8 +80,8 @@ public class Ubicacion extends AppCompatActivity {
         et_nombreUbicacion.setText("");
 
         try {
-            BDConnector.getInstance().addUbicacion(nombreJuego, nombreRuta, nombreZona, nombreUbicacion);
-        } catch (SQLException throwables) {
+            BDUbicacion.getInstance().addUbicacion(nombreJuego, nombreRuta, nombreZona, nombreUbicacion);
+        } catch (SQLException | ClassNotFoundException throwables) {
             //TODO lanzar error por pantalla
             Toast.makeText(this, throwables.getMessage(), Toast.LENGTH_LONG).show();
         }
