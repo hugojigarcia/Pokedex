@@ -93,9 +93,19 @@ public class Ubicacion extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        cargar_pantalla_anterior();
+    }
+
     public void onclick_back(View view){
+        cargar_pantalla_anterior();
+    }
+
+    private void cargar_pantalla_anterior(){
         pantallaZona.putExtra("Juego", nombreJuego);
         pantallaZona.putExtra("Ruta", nombreRuta); //Modify
         startActivity(pantallaZona);
-    } //Modify
+    }
 }

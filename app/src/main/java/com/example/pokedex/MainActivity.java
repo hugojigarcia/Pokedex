@@ -109,4 +109,10 @@ public class MainActivity extends AppCompatActivity {
 
         consultarJuegos();
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        
+    }
 }
