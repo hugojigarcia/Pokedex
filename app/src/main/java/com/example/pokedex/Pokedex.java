@@ -92,7 +92,7 @@ public class Pokedex extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.checkbox_menu, menu);
+        //getMenuInflater().inflate(R.menu.checkbox_menu, menu);
         return true;
     }
 
@@ -108,7 +108,7 @@ public class Pokedex extends AppCompatActivity {
             if(BDPokedex.getInstance().existePokemon(nombrePokemon)){
                 BDPokedex.getInstance().addPokemonAPokedex(nombreJuego, nombrePokemon, capturado);
                 et_nombrePokemon.setText("");
-                cb_capturado.setChecked(false);
+                cb_capturado.setChecked(true);
             } else {
                 Toast.makeText(this, "El nombre del Pokemon no es correcto", Toast.LENGTH_SHORT).show();
             }

@@ -102,7 +102,7 @@ public class Pokemons extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.checkbox_menu, menu);
+        //getMenuInflater().inflate(R.menu.checkbox_menu, menu);
         return true;
     }
 
