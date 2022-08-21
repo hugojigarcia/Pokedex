@@ -1,3 +1,0 @@
-jdbc:mysql://mysql-hugo0133.alwaysdata.net:3306/hugo0133_pokedex
-hugo0133_lector
-lectorlector

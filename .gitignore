@@ -1,3 +1,6 @@
+Archivos/
+app/src/main/res/raw/config.txt
+
 # Built application files
 *.apk
 *.aar
