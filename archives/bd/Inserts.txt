@@ -1,8 +1,0 @@
-INSERT INTO Juego (nombreJuego)
-VALUES ("Escudo");
-
-INSERT INTO Ruta (nombreJuego, nombreRuta, totalEntrenadores, entrenadoresDerrotados)
-VALUES ("Escudo", "Ruta 1", 0, 0);
-
-INSERT INTO Zona (nombreJuego, nombreRuta, nombreZona)
-VALUES ("Escudo", "Ruta 1", "General");
