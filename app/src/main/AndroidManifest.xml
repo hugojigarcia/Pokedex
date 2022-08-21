@@ -30,12 +30,6 @@
             android:name=".Ajustes"
             android:exported="false" />
         <activity
-            android:name=".vista_juego.ListaJuegos"
-            android:exported="false" />
-        <activity
-            android:name=".vista_juego.VisualizarJuego"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
